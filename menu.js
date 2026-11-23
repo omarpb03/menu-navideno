@@ -9,7 +9,7 @@ const CONFIG = {
 
   // Número de WhatsApp que recibe los pedidos: código de país + número, sin + ni espacios.
   // Ejemplo México: "5215512345678"
-  whatsapp: "52XXXXXXXXXX",
+  whatsapp: "525515882468",
 
   // Fechas de entrega disponibles (formato AAAA-MM-DD)
   fechaMin: "2026-12-18",
@@ -132,6 +132,7 @@ const PLATILLOS = [
   },
   {
     id: "pechuga-nochebuena", cat: "fuertes",
+    foto: "fotos/pechuga-nochebuena.jpg", 
     nombre: "Pechuga Nochebuena",
     desc: "Orden de 4 piezas.",
     precio: 430, unidad: "pza", unidadSing: "orden (4 piezas)", unidadPlur: "órdenes (4 piezas)",
@@ -244,7 +245,7 @@ const PLATILLOS = [
   {
     id: "cheesecake", cat: "postres",
     nombre: "Cheesecake",
-    desc: "Cheesecake.",
+    desc: "Cheesecake con compota de frutos del bosque.",
     precio: 450, unidad: "pza", unidadSing: "cheesecake", unidadPlur: "cheesecakes",
     precioEtiqueta: "$450 · por cheesecake",
     tags: ["queso"], contiene: ["queso"],
@@ -253,13 +254,25 @@ const PLATILLOS = [
   {
     id: "panque-zanahoria", cat: "postres",
     nombre: "Panqué de zanahoria",
-    desc: "Panqué de zanahoria.",
+    desc: "Panqué de zanahoria con frosty de queso crema.",
     precio: 250, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    tags: ["tradicional"], contiene: [],
+  },
+  {
+    id: "rosca-naranja",                 // nombre único, sin espacios ni acentos
+    cat: "postres",                      // categoría donde aparece
+    foto: "fotos/rosca-naranja.jpeg",     // opcional: borra esta línea si todavía no hay foto
+    nombre: "Rosca de naranja confitada y almendra",
+    desc: "Rosca con naranja confitada.",
+    precio: 220,                         // PON AQUÍ EL PRECIO
+    unidad: "pza", unidadSing: "rosca", unidadPlur: "roscas",
+    precioEtiqueta: "$220 · por rosca",  // cambia el número igual que arriba
     tags: ["tradicional"], contiene: [],
   },
   {
     id: "panque-naranja", cat: "postres",
     nombre: "Panqué de naranja Confitada",
+    foto:"fotos/panque-naranja.jpeg",
     desc: "Panqué de naranja.",
     precio: 220 , unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
     tags: ["tradicional"], contiene: [],
@@ -276,17 +289,16 @@ const PLATILLOS = [
   // Se cobra por pieza. Oculto hasta definir el precio: pon el precio en "precio" y,
   // si cuesta distinto según la pieza, un "extra" en cada elección. Luego quita "oculto".
   {
-    id: "horneado", cat: "horneado", oculto: true,
+    id: "horneado", cat: "horneado",
     nombre: "Horneado de tu pieza",
-    desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por pieza; indica en la nota el peso y la hora en que la necesitas.",
-    precio: 0, unidad: "pza", unidadSing: "pieza", unidadPlur: "piezas",
-    precioEtiqueta: "Por pieza",
+    desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por charola, sin importar lo que se hornee; indica en la nota qué traes y a qué hora lo necesitas.",
+    precio: 330, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
+    precioEtiqueta: "Por charola",
     tags: [], contiene: [],
-    opciones: [
+    opciones: [      // solo sirve para que sepamos qué llega; no cambia el precio
       { id: "pieza", titulo: "Pieza a hornear", requerida: true, multiple: false,
-        elecciones: [{ nombre: "Pavo", extra: 0 }, { nombre: "Pierna de cerdo", extra: 0 },
-                     { nombre: "Lomo de cerdo", extra: 0 }, { nombre: "Pollo", extra: 0 },
-                     { nombre: "Otra pieza", extra: 0 }] },
+        elecciones: [{ nombre: "Pavo" }, { nombre: "Pierna de cerdo" }, { nombre: "Lomo de cerdo" },
+                     { nombre: "Pollo" }, { nombre: "Otra pieza" }] },
     ],
   },
 ];
