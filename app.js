@@ -116,7 +116,7 @@ function mensajePedido(cart, f) {
   L.push("*Pedido Navideño*", "");
   L.push(`*Nombre:* ${f.nombre.trim()}`);
   L.push(`*Teléfono:* ${f.telefono.trim()}`);
-  L.push("*Entrega:* Paso a recoger en casa");
+  L.push("*Entrega:* Paso a recoger con ustedes");
   L.push(`*Fecha:* ${fechaLarga(f.fecha)}`);
   L.push("", "*Mi pedido:*");
   for (const l of cart) {
@@ -480,7 +480,7 @@ if (typeof document !== "undefined") {
       <label class="campo"><span>Teléfono (WhatsApp)</span>
         <input id="f-telefono" type="tel" inputmode="tel" autocomplete="tel" value="${esc(f.telefono)}" placeholder="10 dígitos"></label>
 
-      <div class="aviso-recoger"><strong>Recoges tu pedido en casa</strong>
+      <div class="aviso-recoger"><strong>Recoge tu pedido con nosotros</strong>
         <span>${esc(CFG.notaRecoger || "")}</span></div>
 
       <fieldset class="grupo">
