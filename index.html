@@ -186,6 +186,7 @@
 
   .toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(.9rem + env(safe-area-inset-top));z-index:30;
          background:var(--tinta);color:#fff;padding:.7rem 1.2rem;border-radius:999px;max-width:92vw;text-align:center;font-size:.9rem}
+  .firma{font-family:var(--logo);font-weight:700;font-size:1.05rem;color:var(--rosa);margin:1.2rem 0 0}
   footer{max-width:980px;margin:2.5rem auto 0;padding:0 1.2rem;color:var(--suave);font-size:.8rem;text-align:center}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
@@ -205,7 +206,7 @@
 
 <nav class="cats" id="cats" aria-label="Categorías del menú"></nav>
 <main id="menu"></main>
-<footer>Los precios son por kilo, litro o pieza según se indica. El total final y la disponibilidad se confirman por WhatsApp.</footer>
+<footer>Los precios son por kilo, litro o pieza según se indica. El total final y la disponibilidad se confirman por WhatsApp.<p class="firma" id="firma" hidden></p></footer>
 
 <nav class="nav" id="barra" aria-label="Navegación principal">
   <button data-acc="inicio" aria-label="Ir al inicio">

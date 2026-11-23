@@ -312,6 +312,7 @@ if (typeof document !== "undefined") {
     $("#titulo").textContent = CFG.titulo;
     $("#lema").textContent = CFG.lema;
     $("#fechas").textContent = CFG.avisoFechas || "";
+    const f = $("#firma"); f.textContent = CFG.firma || ""; f.hidden = !CFG.firma;   // "By ..." al final de la página
   }
 
   function pintarCategorias() {
