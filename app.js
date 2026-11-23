@@ -285,6 +285,29 @@ if (typeof document !== "undefined") {
   }
   function cerrarTodo() { ["hoja", "carrito", "asistente"].forEach(ocultar); }
 
+  /* Gatito chef (ilustración propia, SVG): el ayudante que recomienda platillos. */
+  const GATO_SVG = `<svg class="gato" viewBox="0 0 120 124" aria-hidden="true" focusable="false">
+    <g stroke="#c97a2b" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M20 66L15 35L45 52Z" fill="#f4a259"/><path d="M100 66L105 35L75 52Z" fill="#f4a259"/>
+      <ellipse cx="60" cy="80" rx="42" ry="33" fill="#f4a259"/>
+      <ellipse cx="42" cy="113" rx="10" ry="7" fill="#f4a259"/><ellipse cx="78" cy="113" rx="10" ry="7" fill="#f4a259"/>
+    </g>
+    <path d="M23 59L21 43L36 52Z" fill="#ffb3c1"/><path d="M97 59L99 43L84 52Z" fill="#ffb3c1"/>
+    <g stroke="#d9822b" stroke-width="3" stroke-linecap="round"><path d="M60 54v8M51 55l2 7M69 55l-2 7"/></g>
+    <ellipse cx="60" cy="93" rx="19" ry="13" fill="#fff1dc"/>
+    <ellipse cx="34" cy="87" rx="6.5" ry="4.2" fill="#ff8fa3" opacity=".7"/><ellipse cx="86" cy="87" rx="6.5" ry="4.2" fill="#ff8fa3" opacity=".7"/>
+    <g fill="none" stroke="#3b2a2a" stroke-width="4" stroke-linecap="round"><path d="M39 77Q46 68 53 77"/><path d="M67 77Q74 68 81 77"/></g>
+    <path d="M56 85h8l-4 5z" fill="#ff6f8a"/>
+    <g fill="none" stroke="#3b2a2a" stroke-width="2.6" stroke-linecap="round"><path d="M60 90Q55 98 50 92"/><path d="M60 90Q65 98 70 92"/></g>
+    <g stroke="#3b2a2a" stroke-width="2" stroke-linecap="round" opacity=".55"><path d="M27 88L9 85M27 93L9 96M93 88L111 85M93 93L111 96"/></g>
+    <g fill="#fff" stroke="#e3d6c6" stroke-width="2.5" stroke-linejoin="round">
+      <circle cx="41" cy="29" r="14"/><circle cx="79" cy="29" r="14"/><circle cx="60" cy="21" r="17"/>
+      <rect x="37" y="35" width="46" height="15" rx="6"/>
+    </g>
+    <path d="M45 42h30" stroke="#f0e6da" stroke-width="2" stroke-linecap="round"/>
+  </svg>`;
+  function ponerGatos() { document.querySelectorAll("[data-gato]").forEach(el => { el.innerHTML = GATO_SVG; }); }
+
   const ICO_X = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>`;
 
   /* Cada hoja tiene un cuerpo que se desplaza y un pie fijo con la acción principal
@@ -309,7 +332,7 @@ if (typeof document !== "undefined") {
   }
 
   function pintarCategorias() {
-    $("#cats").innerHTML = `<button class="chip-ayuda" data-acc="asistente">Ayúdame a elegir</button>` + CATS.map(c =>
+    $("#cats").innerHTML = `<button class="chip-ayuda" data-acc="asistente"><span class="gato-mini" data-gato></span>Ayúdame a elegir</button>` + CATS.map(c =>
       `<a class="chip-cat" href="#cat-${c.id}">${esc(c.nombre)}</a>`).join("");
   }
 
@@ -559,8 +582,8 @@ if (typeof document !== "undefined") {
 
   function pintarAsistente() {
     const A = S.asist;
-    let html = `<h3>Te ayudamos a elegir</h3>
-      <p class="chico">Responde unas preguntas y armamos una propuesta con cantidades.</p><div class="chat">`;
+    let html = `<div class="asist-cab"><span class="gato-grande">${GATO_SVG}</span><div><h3>Te ayudamos a elegir</h3>
+      <p class="chico">Responde unas preguntas y armamos una propuesta con cantidades.</p></div></div><div class="chat">`;
     let pie = "";
 
     const hechas = A.res ? PREGUNTAS.length : A.paso;
@@ -730,7 +753,7 @@ if (typeof document !== "undefined") {
   /* ---------- inicio ---------- */
   function iniciar() {
     cargarGuardado();
-    pintarPortada(); pintarCategorias(); pintarMenu(); vigilarCategorias(); pintarBarra();
+    pintarPortada(); pintarCategorias(); pintarMenu(); vigilarCategorias(); pintarBarra(); ponerGatos();
   }
   iniciar();
 }

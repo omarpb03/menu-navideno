@@ -91,6 +91,17 @@
   .precio{color:var(--rosa);font-weight:700;font-size:.92rem;white-space:nowrap}
   .desc{color:var(--suave);font-size:.88rem;padding:0 .2rem}
 
+  /* ---------- gatito chef (ayudante) ---------- */
+  .gato{display:block;width:100%;height:auto;overflow:visible}
+  .gato-mini{display:inline-block;width:30px;flex:none;margin:-4px .1rem -4px -.2rem}
+  .chip-ayuda{display:inline-flex;align-items:center;gap:.4rem}
+  .chip-ayuda .gato-mini{width:26px;margin:-5px 0 -5px -.35rem}
+  .gato-grande{flex:none;width:74px;margin-top:-.2rem}
+  .asist-cab{display:flex;align-items:center;gap:.9rem}
+  .asist-cab h3{margin-top:0}
+  .gato-nav{display:block;width:60px;margin-top:-12px;animation:bota 3.2s ease-in-out infinite}
+  @keyframes bota{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
   /* ---------- barra de navegación inferior ---------- */
   .nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:#fff;border-radius:22px 22px 0 0;
        box-shadow:0 -6px 22px rgba(0,0,0,.08);padding:.55rem 1rem calc(.55rem + env(safe-area-inset-bottom));
@@ -100,7 +111,7 @@
   .nav .ico{position:relative}
   .nav .ico b{position:absolute;top:-6px;right:-10px;min-width:18px;height:18px;border-radius:9px;background:var(--grad);color:#fff;
        font-size:.68rem;display:grid;place-items:center;padding:0 4px}
-  .nav .centro{width:66px;height:66px;min-height:0;border-radius:50%;background:var(--grad);color:#fff;margin:-32px .6rem 0;padding:0;
+  .nav .centro{width:66px;height:66px;min-height:0;border-radius:50%;background:linear-gradient(180deg,#fff7f8,#ffe1e7);overflow:visible;color:#fff;margin:-32px .6rem 0;padding:0;
        justify-content:center;border:5px solid #fff;box-shadow:0 6px 16px rgba(255,64,112,.4)}
 
   /* ---------- modales ---------- */
@@ -202,7 +213,7 @@
   <span class="fechas" id="fechas"></span>
   <div class="acciones-portada">
     <a class="btn btn-blanco" href="#menu">Explorar</a>
-    <button class="btn btn-borde" data-acc="asistente">Ayúdame a elegir</button>
+    <button class="btn btn-borde" data-acc="asistente"><span class="gato-mini" data-gato></span>Ayúdame a elegir</button>
   </div>
 </header>
 
@@ -215,9 +226,7 @@
     <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span>Menú</span>
   </button>
-  <button class="centro" data-acc="asistente" aria-label="Ayúdame a elegir">
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
-  </button>
+  <button class="centro" data-acc="asistente" aria-label="Ayúdame a elegir"><span class="gato-nav" data-gato></span></button>
   <button data-acc="carrito" aria-label="Ver mi pedido">
     <span class="ico">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm0 10c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5z"/></svg>
