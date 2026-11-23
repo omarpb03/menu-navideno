@@ -119,14 +119,14 @@ const PLATILLOS = [
     id: "bacalao", cat: "fuertes", rol: "fuerte",
     nombre: "Bacalao a la vizcaína",
     desc: "El plato de Nochebuena por excelencia.",
-    precio: 680, unidad: "kg",          // POR CONFIRMAR: en la hoja está tachado 700 / 680
+    precio: 700, unidad: "kg",          // POR CONFIRMAR: en la hoja está tachado 700 / 680
     tags: ["tradicional", "elegante"], contiene: ["mariscos"],
   },
   {
     id: "pollo-relleno", cat: "fuertes",    // sin "rol": el asistente no lo propone (faltan porciones)
     nombre: "Pollo relleno",
     desc: "Pollo relleno, listo para la mesa.",
-    precio: 900, unidad: "pza", unidadSing: "pollo", unidadPlur: "pollos",   // POR CONFIRMAR: $900 por pollo
+    precio: 680, unidad: "pza", unidadSing: "pollo", unidadPlur: "pollos",   // POR CONFIRMAR: $900 por pollo
     precioEtiqueta: "$900 · por pollo",
     tags: ["tradicional"], contiene: [],
   },
@@ -238,7 +238,7 @@ const PLATILLOS = [
     nombre: "Flan napolitano",
     desc: "Flan napolitano.",
     precio: 230, unidad: "pza", unidadSing: "flan", unidadPlur: "flanes",
-    precioEtiqueta: "$300 · por flan",
+    precioEtiqueta: "$230 · por flan",
     tags: ["tradicional"], contiene: [],
   },
   {
