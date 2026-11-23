@@ -121,14 +121,16 @@ const PLATILLOS = [
     ],
   },
   {
-    id: "bacalao", cat: "fuertes", rol: "fuerte",
+    id: "bacalao", cat: "fuertes",
+    foto: "fotos/bacalao-navideno.jpg", rol: "fuerte",
     nombre: "Bacalao a la vizcaína",
     desc: "El plato de Nochebuena por excelencia.",
     precio: 700, unidad: "kg",          // POR CONFIRMAR: en la hoja está tachado 700 / 680
     tags: ["tradicional", "elegante"], contiene: ["mariscos"],
   },
   {
-    id: "pollo-relleno", cat: "fuertes",    // sin "rol": el asistente no lo propone (faltan porciones)
+    id: "pollo-relleno", cat: "fuertes", 
+    foto: "fotos/pollo-relleno.jpg",   // sin "rol": el asistente no lo propone (faltan porciones)
     nombre: "Pollo relleno",
     desc: "Pollo relleno, listo para la mesa.",
     precio: 680, unidad: "pza", unidadSing: "pollo", unidadPlur: "pollos",   // POR CONFIRMAR: $900 por pollo
@@ -283,7 +285,8 @@ const PLATILLOS = [
     tags: ["tradicional"], contiene: [],
   },
   {
-    id: "panque-frutos-secos", cat: "postres",
+    id: "panque-frutos-secos",
+    foto: "fotos/panque-frutos.jpg", cat: "postres",
     nombre: "Panqué de frutos secos",
     desc: "Nuevo.",
     precio: 140, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
@@ -295,6 +298,7 @@ const PLATILLOS = [
   // si cuesta distinto según la pieza, un "extra" en cada elección. Luego quita "oculto".
   {
     id: "horneado", cat: "horneado",
+    foto: "fotos/horneado.webp",
     nombre: "Horneado de tu pieza",
     desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por charola, independientemente del peso; indica en la nota qué traes y a qué hora lo necesitas.",
     precio: 330, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
