@@ -76,7 +76,8 @@ const PLATILLOS = [
     ],
   },
   {
-    id: "pavo", cat: "fuertes", rol: "fuerte",
+    id: "pavo", cat: "fuertes", 
+    foto: "fotos/pavo-relleno.jpg", rol: "fuerte",
     nombre: "Pavo relleno",
     desc: "El clásico de la mesa navideña, con la salsa que prefieras.",
     precio: 540, unidad: "kg",
@@ -87,7 +88,8 @@ const PLATILLOS = [
     ],
   },
   {
-    id: "costillitas", cat: "fuertes", rol: "fuerte",
+    id: "costillitas", cat: "fuertes", 
+    foto: "fotos/costillas-cerdo.avif", rol: "fuerte",
     nombre: "Costillitas de cerdo",
     desc: "Costillitas en la salsa que elijas.",
     precio: 430, unidad: "kg",
@@ -98,14 +100,16 @@ const PLATILLOS = [
     ],
   },
   {
-    id: "cochinita", cat: "fuertes", rol: "fuerte",
+    id: "cochinita", cat: "fuertes", 
+    foto: "fotos/cochinita-pibil.png", rol: "fuerte",
     nombre: "Cochinita pibil",
     desc: "Cochinita pibil por kilo.",
     precio: 430, unidad: "kg",
     tags: ["mexicano", "compartir"], contiene: ["cerdo"],
   },
   {
-    id: "lasagna", cat: "fuertes", rol: "fuerte",
+    id: "lasagna", cat: "fuertes", 
+    foto: "fotos/lasagna.webp", rol: "fuerte",
     nombre: "Lasagna",
     desc: "Charola de lasagna para 6 o para 12 personas.",
     precio: 1200, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
