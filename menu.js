@@ -19,6 +19,9 @@ const CONFIG = {
 
   avisoFechas: "Entregas del 18 al 31 de diciembre. Pide con anticipación.",
   notaDomicilio: "El costo de envío se confirma por WhatsApp.",
+  // Texto al final de la página. Déjalo vacío ("") para no mostrarlo.
+  firma: "By Rosario y Josefina",     // ← CAMBIA ESTO por sus nombres
+
   pedidoMinimo: 0,                    // en pesos; 0 = sin mínimo
 };
 
@@ -291,7 +294,7 @@ const PLATILLOS = [
   {
     id: "horneado", cat: "horneado",
     nombre: "Horneado de tu pieza",
-    desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por charola, sin importar lo que se hornee; indica en la nota qué traes y a qué hora lo necesitas.",
+    desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por charola, independientemente del peso; indica en la nota qué traes y a qué hora lo necesitas.",
     precio: 330, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
     precioEtiqueta: "Por charola",
     tags: [], contiene: [],
