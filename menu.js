@@ -147,14 +147,7 @@ const PLATILLOS = [
     precio: 330, unidad: "kg",
     tags: ["tradicional", "mexicano"], contiene: [], posibleContiene: ["mariscos"],
   },
-  {
-    id: "pure", cat: "guarniciones", rol: "guarnicion",
-    oculto: true,                       // En la hoja el precio está tachado. Quita esta línea y pon el precio nuevo.
-    nombre: "Puré de papa con gravy",
-    desc: "Cremoso, con gravy.",
-    precio: 230, unidad: "kg",
-    tags: ["tradicional", "compartir"], contiene: [],
-  },
+
   {
     id: "papa-gratin", cat: "guarniciones", rol: "guarnicion",
     nombre: "Papa gratin",
@@ -231,20 +224,6 @@ const PLATILLOS = [
     tags: ["tradicional", "elegante"], contiene: [],
   },
   {
-    id: "crema-poblano", cat: "cremas", rol: "entrada",
-    nombre: "Crema de poblano",
-    desc: "Se vende por litro.",
-    precio: 280, unidad: "lt",
-    tags: ["mexicano", "tradicional"], contiene: [],
-  },
-  {
-    id: "crema-esparragos", cat: "cremas", rol: "entrada",
-    nombre: "Crema de espárragos",
-    desc: "Nueva. Se vende por litro.",
-    precio: 280, unidad: "lt",
-    tags: ["tradicional", "elegante", "ligero"], contiene: [],
-  },
-  {
     id: "crema-brocoli-nuez", cat: "cremas", rol: "entrada",
     nombre: "Crema de brócoli con nuez",
     desc: "Se vende por litro.",
@@ -258,7 +237,7 @@ const PLATILLOS = [
     id: "flan", cat: "postres",
     nombre: "Flan napolitano",
     desc: "Flan napolitano.",
-    precio: 300, unidad: "pza", unidadSing: "flan", unidadPlur: "flanes",
+    precio: 230, unidad: "pza", unidadSing: "flan", unidadPlur: "flanes",
     precioEtiqueta: "$300 · por flan",
     tags: ["tradicional"], contiene: [],
   },
@@ -272,24 +251,24 @@ const PLATILLOS = [
   },
   // Los panqués no tienen precio en la hoja: quedan ocultos. Escribe el precio y quita "oculto".
   {
-    id: "panque-zanahoria", cat: "postres", oculto: true,
+    id: "panque-zanahoria", cat: "postres",
     nombre: "Panqué de zanahoria",
     desc: "Panqué de zanahoria.",
-    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    precio: 250, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
     tags: ["tradicional"], contiene: [],
   },
   {
-    id: "panque-naranja", cat: "postres", oculto: true,
-    nombre: "Panqué de naranja",
+    id: "panque-naranja", cat: "postres",
+    nombre: "Panqué de naranja Confitada",
     desc: "Panqué de naranja.",
-    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    precio: 220 , unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
     tags: ["tradicional"], contiene: [],
   },
   {
-    id: "panque-frutos-secos", cat: "postres", oculto: true,
+    id: "panque-frutos-secos", cat: "postres",
     nombre: "Panqué de frutos secos",
     desc: "Nuevo.",
-    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    precio: 140, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
     tags: ["tradicional"], contiene: ["frutos_secos"],
   },
 
