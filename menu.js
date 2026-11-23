@@ -12,13 +12,9 @@ const CONFIG = {
   whatsapp: "525515882468",
 
   // Fechas de entrega disponibles (formato AAAA-MM-DD)
-  fechaMin: "2026-12-18",
-  fechaMax: "2026-12-31",
-  fechasNoDisponibles: [],            // ej. ["2026-12-25"]
-  horarios: ["Mañana (9:00 – 13:00)", "Tarde (13:00 – 18:00)"],
-
-  avisoFechas: "Entregas del 18 al 31 de diciembre. Pide con anticipación.",
-  notaDomicilio: "El costo de envío se confirma por WhatsApp.",
+  fechasEntrega: ["2026-12-24", "2026-12-31"],
+  avisoFechas: "Entregas el 24 y el 31 de diciembre, para recoger en casa. Recibimos pedidos hasta el 20 de diciembre.",
+  notaRecoger: "Te enviamos la dirección por WhatsApp al confirmar tu pedido.",
   // Texto al final de la página. Déjalo vacío ("") para no mostrarlo.
   firma: "By Rosario y Josefina",     // ← CAMBIA ESTO por sus nombres
 
@@ -52,7 +48,8 @@ const CATEGORIAS = [
 const PLATILLOS = [
   /* ---------------- PLATOS FUERTES ---------------- */
   {
-    id: "lomo-mechado", cat: "fuertes", rol: "fuerte", familia: "lomo",
+    id: "lomo-mechado", cat: "fuertes",
+    foto: "fotos/lomo-mechada.png", rol: "fuerte", familia: "lomo",
     nombre: "Lomo o pierna de cerdo mechada",
     desc: "Mechada, con la salsa que elijas.",
     precio: 470, unidad: "kg",
@@ -65,7 +62,8 @@ const PLATILLOS = [
     ],
   },
   {
-    id: "lomo-relleno", cat: "fuertes", rol: "fuerte", familia: "lomo",
+    id: "lomo-relleno", cat: "fuertes", 
+    foto: "fotos/lomo-rellena.jpg", rol: "fuerte", familia: "lomo",
     nombre: "Lomo o pierna de cerdo rellena",
     desc: "Rellena, con la salsa que elijas.",
     precio: 510, unidad: "kg",
@@ -277,7 +275,7 @@ const PLATILLOS = [
     nombre: "Panqué de naranja Confitada",
     foto:"fotos/panque-naranja.jpeg",
     desc: "Panqué de naranja.",
-    precio: 220 , unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    precio: 140 , unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
     tags: ["tradicional"], contiene: [],
   },
   {

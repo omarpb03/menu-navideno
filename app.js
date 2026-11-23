@@ -10,6 +10,7 @@ const D = (typeof module !== "undefined" && module.exports)
   ? require("./menu.js")
   : { CONFIG, CATEGORIAS, PLATILLOS };
 const CFG = D.CONFIG;
+const FECHAS = CFG.fechasEntrega || ["2026-12-24", "2026-12-31"];   // únicas fechas de entrega que se pueden elegir
 const MENU = D.PLATILLOS.filter(p => !p.oculto);                       // los platillos con "oculto: true" no se muestran
 const CATS = D.CATEGORIAS.filter(c => MENU.some(p => p.cat === c.id)); // y las categorías vacías tampoco
 const POR_ID = Object.fromEntries(MENU.map(p => [p.id, p]));
@@ -91,6 +92,7 @@ function fechaDesdeISO(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   return new Date(y, m - 1, d);
 }
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 function fechaLarga(iso) {
   if (!iso) return "";
   return fechaDesdeISO(iso).toLocaleDateString("es-MX", { weekday: "long", day: "numeric", month: "long" });
@@ -104,15 +106,7 @@ function validarPedido(cart, f) {
     e.push(`El pedido mínimo es de ${dinero(CFG.pedidoMinimo)}.`);
   if ((f.nombre || "").trim().length < 2) e.push("Escribe tu nombre.");
   if ((f.telefono || "").replace(/\D/g, "").length < 10) e.push("Escribe un teléfono de 10 dígitos.");
-  if (!f.fecha) e.push("Elige la fecha de entrega.");
-  else {
-    if (f.fecha < CFG.fechaMin || f.fecha > CFG.fechaMax)
-      e.push(`La fecha de entrega debe estar entre el ${fechaLarga(CFG.fechaMin)} y el ${fechaLarga(CFG.fechaMax)}.`);
-    else if ((CFG.fechasNoDisponibles || []).includes(f.fecha))
-      e.push("Esa fecha no está disponible. Elige otra.");
-  }
-  if (f.entrega === "domicilio" && (f.direccion || "").trim().length < 6)
-    e.push("Escribe la dirección de entrega.");
+  if (!FECHAS.includes(f.fecha)) e.push("Elige la fecha en que pasarás a recoger tu pedido.");
   return e;
 }
 
@@ -122,8 +116,8 @@ function mensajePedido(cart, f) {
   L.push("*Pedido Navideño*", "");
   L.push(`*Nombre:* ${f.nombre.trim()}`);
   L.push(`*Teléfono:* ${f.telefono.trim()}`);
-  L.push(`*Entrega:* ${f.entrega === "domicilio" ? "A domicilio — " + f.direccion.trim() : "Paso a recoger"}`);
-  L.push(`*Fecha:* ${fechaLarga(f.fecha)}${f.horario ? " · " + f.horario : ""}`);
+  L.push("*Entrega:* Paso a recoger en casa");
+  L.push(`*Fecha:* ${fechaLarga(f.fecha)}`);
   L.push("", "*Mi pedido:*");
   for (const l of cart) {
     const p = POR_ID[l.id];
@@ -133,9 +127,7 @@ function mensajePedido(cart, f) {
   }
   L.push("", `*Total estimado:* ${dinero(totalCarrito(cart))}`);
   if ((f.notas || "").trim()) L.push("", `*Notas:* ${f.notas.trim()}`);
-  L.push("", f.entrega === "domicilio"
-    ? "_El total es estimado; el costo de envío y la disponibilidad se confirman por este medio._"
-    : "_El total es estimado; la disponibilidad se confirma por este medio._");
+  L.push("", "_El total es estimado; la disponibilidad y la dirección para recoger se confirman por este medio._");
   return L.join("\n");
 }
 
@@ -252,7 +244,7 @@ if (typeof document !== "undefined") {
   const CLAVE_GUARDADO = "menu-navideno-2026";
   const S = {
     cart: [],
-    form: { nombre: "", telefono: "", entrega: "recoger", direccion: "", fecha: "", horario: "", notas: "" },
+    form: { nombre: "", telefono: "", fecha: "", notas: "" },
     hoja: null,       // platillo abierto en la hoja de detalle
     asist: null,      // estado del asistente
     errores: [],
@@ -270,6 +262,7 @@ if (typeof document !== "undefined") {
       if (g && Array.isArray(g.cart)) {
         S.cart = g.cart.filter(l => POR_ID[l.id]);
         S.form = { ...S.form, ...(g.form || {}) };
+        if (!FECHAS.includes(S.form.fecha)) S.form.fecha = "";   // por si cambian las fechas disponibles
       }
     } catch (e) { /* ignorar */ }
   }
@@ -487,28 +480,17 @@ if (typeof document !== "undefined") {
       <label class="campo"><span>Teléfono (WhatsApp)</span>
         <input id="f-telefono" type="tel" inputmode="tel" autocomplete="tel" value="${esc(f.telefono)}" placeholder="10 dígitos"></label>
 
-      <fieldset class="grupo">
-        <legend>Entrega</legend>
-        <label class="opcion"><input type="radio" name="entrega" value="recoger" ${f.entrega === "recoger" ? "checked" : ""}><span>Paso a recoger</span></label>
-        <label class="opcion"><input type="radio" name="entrega" value="domicilio" ${f.entrega === "domicilio" ? "checked" : ""}><span>A domicilio</span></label>
-      </fieldset>
-      <label class="campo" id="campo-dir" ${f.entrega === "domicilio" ? "" : "hidden"}><span>Dirección</span>
-        <textarea id="f-direccion" rows="2" autocomplete="street-address" placeholder="Calle, número, colonia, referencias">${esc(f.direccion)}</textarea>
-        <small>${esc(CFG.notaDomicilio || "")}</small></label>
+      <div class="aviso-recoger"><strong>Recoges tu pedido en casa</strong>
+        <span>${esc(CFG.notaRecoger || "")}</span></div>
 
-      <div class="dos">
-        <label class="campo"><span>Fecha de entrega</span>
-          <input id="f-fecha" type="date" min="${CFG.fechaMin}" max="${CFG.fechaMax}" value="${esc(f.fecha)}"></label>
-        <label class="campo"><span>Horario</span>
-          <select id="f-horario">
-            <option value="">Cualquiera</option>
-            ${(CFG.horarios || []).map(h => `<option ${f.horario === h ? "selected" : ""}>${esc(h)}</option>`).join("")}
-          </select></label>
-      </div>
+      <fieldset class="grupo">
+        <legend>¿Qué día pasas a recoger?</legend>
+        ${FECHAS.map(d => `<label class="opcion"><input type="radio" name="fecha" value="${d}" ${f.fecha === d ? "checked" : ""}><span>${esc(cap(fechaLarga(d)))}</span></label>`).join("")}
+      </fieldset>
       <p class="chico">${esc(CFG.avisoFechas || "")}</p>
 
       <label class="campo"><span>Notas generales <em>opcional</em></span>
-        <textarea id="f-notas" rows="2" placeholder="Alergias, hora exacta, comentarios…">${esc(f.notas)}</textarea></label>
+        <textarea id="f-notas" rows="2" placeholder="Alergias, comentarios…">${esc(f.notas)}</textarea></label>
 
       ${S.errores.length ? `<ul class="errores" id="errores">${S.errores.map(e => `<li>${esc(e)}</li>`).join("")}</ul>` : ""}
       ${S.enviado ? `<p class="exito">Se abrió WhatsApp con tu pedido. Presiona <b>Enviar</b> allá para terminar. Si no se abrió, usa “Copiar pedido”.</p>` : ""}
@@ -733,19 +715,13 @@ if (typeof document !== "undefined") {
       return;
     }
     // Formulario del pedido
-    if (t.name === "entrega") {
-      S.form.entrega = t.value;
-      const c = $("#campo-dir"); if (c) c.hidden = t.value !== "domicilio";
-      guardar();
-    }
-    if (t.id === "f-horario") { S.form.horario = t.value; guardar(); }
-    if (t.id === "f-fecha") { S.form.fecha = t.value; guardar(); }
+    if (t.name === "fecha") { S.form.fecha = t.value; guardar(); }
   });
 
   document.addEventListener("input", ev => {
     const t = ev.target;
     if (t.id === "hoja-nota" && S.hoja) S.hoja.nota = t.value;
-    const mapa = { "f-nombre": "nombre", "f-telefono": "telefono", "f-direccion": "direccion", "f-notas": "notas", "f-fecha": "fecha" };
+    const mapa = { "f-nombre": "nombre", "f-telefono": "telefono", "f-notas": "notas" };
     if (mapa[t.id]) { S.form[mapa[t.id]] = t.value; guardar(); }
   });
 
