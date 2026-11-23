@@ -9,7 +9,9 @@
 const D = (typeof module !== "undefined" && module.exports)
   ? require("./menu.js")
   : { CONFIG, CATEGORIAS, PLATILLOS };
-const CFG = D.CONFIG, CATS = D.CATEGORIAS, MENU = D.PLATILLOS;
+const CFG = D.CONFIG;
+const MENU = D.PLATILLOS.filter(p => !p.oculto);                       // los platillos con "oculto: true" no se muestran
+const CATS = D.CATEGORIAS.filter(c => MENU.some(p => p.cat === c.id)); // y las categorías vacías tampoco
 const POR_ID = Object.fromEntries(MENU.map(p => [p.id, p]));
 
 /* ============================== PARTE 1: LÓGICA ============================== */

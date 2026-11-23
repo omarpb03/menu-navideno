@@ -9,7 +9,7 @@ const CONFIG = {
 
   // Número de WhatsApp que recibe los pedidos: código de país + número, sin + ni espacios.
   // Ejemplo México: "5215512345678"
-  whatsapp: "525538385080",
+  whatsapp: "52XXXXXXXXXX",
 
   // Fechas de entrega disponibles (formato AAAA-MM-DD)
   fechaMin: "2026-12-18",
@@ -28,11 +28,15 @@ const CATEGORIAS = [
   { id: "pastas",       nombre: "Pastas", color: "#d97b29" },
   { id: "ensaladas",    nombre: "Ensaladas", color: "#4f8a5b" },
   { id: "cremas",       nombre: "Cremas", color: "#8a6a3f" },
+  { id: "postres",      nombre: "Postres", color: "#b5546a" },
+  { id: "horneado",     nombre: "Servicio de horneado", color: "#6b4f3a" },
 ];
 
 /* -----------------------------------------------------------------------------
    PLATILLOS
-   - foto (opcional): ruta de una imagen, ej. "fotos/pavo.jpg". Si no hay, se muestra el emoji
+   - foto (opcional): ruta de una imagen, ej. "fotos/pavo.jpg". Si no hay, se usa la imagen de fondo
+   - oculto: true → el platillo NO aparece en la tienda (útil si se acabó o aún no tiene precio).
+     Para mostrarlo otra vez, borra esa línea o pon false.
    - unidad: "kg" | "lt" | "pza"
    - rol (solo para el asistente): "fuerte" | "guarnicion" | "entrada"
    - tags (asistente): tradicional, mexicano, italiano, queso, ligero,
@@ -48,7 +52,7 @@ const PLATILLOS = [
     id: "lomo-mechado", cat: "fuertes", rol: "fuerte", familia: "lomo",
     nombre: "Lomo o pierna de cerdo mechada",
     desc: "Mechada, con la salsa que elijas.",
-    precio: 420, unidad: "kg",
+    precio: 470, unidad: "kg",
     tags: ["tradicional", "compartir"], contiene: ["cerdo"],
     opciones: [
       { id: "corte", titulo: "Corte", requerida: true, multiple: false,
@@ -61,7 +65,7 @@ const PLATILLOS = [
     id: "lomo-relleno", cat: "fuertes", rol: "fuerte", familia: "lomo",
     nombre: "Lomo o pierna de cerdo rellena",
     desc: "Rellena, con la salsa que elijas.",
-    precio: 460, unidad: "kg",
+    precio: 510, unidad: "kg",
     tags: ["tradicional", "elegante"], contiene: ["cerdo"],
     opciones: [
       { id: "corte", titulo: "Corte", requerida: true, multiple: false,
@@ -74,7 +78,7 @@ const PLATILLOS = [
     id: "pavo", cat: "fuertes", rol: "fuerte",
     nombre: "Pavo relleno",
     desc: "El clásico de la mesa navideña, con la salsa que prefieras.",
-    precio: 450, unidad: "kg",
+    precio: 540, unidad: "kg",
     tags: ["tradicional", "elegante"], contiene: [],
     opciones: [
       { id: "salsa", titulo: "Salsa", requerida: true, multiple: false,
@@ -85,7 +89,7 @@ const PLATILLOS = [
     id: "costillitas", cat: "fuertes", rol: "fuerte",
     nombre: "Costillitas de cerdo",
     desc: "Costillitas en la salsa que elijas.",
-    precio: 360, unidad: "kg",
+    precio: 430, unidad: "kg",
     tags: ["compartir", "tradicional"], contiene: ["cerdo"],
     opciones: [
       { id: "salsa", titulo: "Salsa", requerida: true, multiple: false,
@@ -96,15 +100,15 @@ const PLATILLOS = [
     id: "cochinita", cat: "fuertes", rol: "fuerte",
     nombre: "Cochinita pibil",
     desc: "Cochinita pibil por kilo.",
-    precio: 370, unidad: "kg",
+    precio: 430, unidad: "kg",
     tags: ["mexicano", "compartir"], contiene: ["cerdo"],
   },
   {
     id: "lasagna", cat: "fuertes", rol: "fuerte",
     nombre: "Lasagna",
     desc: "Charola de lasagna para 6 o para 12 personas.",
-    precio: 1000, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
-    precioEtiqueta: "Desde $1,000",
+    precio: 1200, unidad: "pza", unidadSing: "charola", unidadPlur: "charolas",
+    precioEtiqueta: "Desde $1,200",
     tags: ["italiano", "queso", "compartir"], contiene: ["queso"],
     opciones: [
       { id: "tamano", titulo: "Tamaño", requerida: true, multiple: false,
@@ -115,8 +119,24 @@ const PLATILLOS = [
     id: "bacalao", cat: "fuertes", rol: "fuerte",
     nombre: "Bacalao a la vizcaína",
     desc: "El plato de Nochebuena por excelencia.",
-    precio: 600, unidad: "kg",
+    precio: 680, unidad: "kg",          // POR CONFIRMAR: en la hoja está tachado 700 / 680
     tags: ["tradicional", "elegante"], contiene: ["mariscos"],
+  },
+  {
+    id: "pollo-relleno", cat: "fuertes",    // sin "rol": el asistente no lo propone (faltan porciones)
+    nombre: "Pollo relleno",
+    desc: "Pollo relleno, listo para la mesa.",
+    precio: 900, unidad: "pza", unidadSing: "pollo", unidadPlur: "pollos",   // POR CONFIRMAR: $900 por pollo
+    precioEtiqueta: "$900 · por pollo",
+    tags: ["tradicional"], contiene: [],
+  },
+  {
+    id: "pechuga-nochebuena", cat: "fuertes",
+    nombre: "Pechuga Nochebuena",
+    desc: "Orden de 4 piezas.",
+    precio: 430, unidad: "pza", unidadSing: "orden (4 piezas)", unidadPlur: "órdenes (4 piezas)",
+    precioEtiqueta: "$430 · orden de 4 piezas",
+    tags: ["tradicional"], contiene: [],
   },
 
   /* ---------------- TRADICIONALES Y GUARNICIONES ---------------- */
@@ -124,11 +144,12 @@ const PLATILLOS = [
     id: "romeritos", cat: "guarniciones", rol: "guarnicion",
     nombre: "Romeritos",
     desc: "Tradición de la cena navideña mexicana.",
-    precio: 280, unidad: "kg",
+    precio: 330, unidad: "kg",
     tags: ["tradicional", "mexicano"], contiene: [], posibleContiene: ["mariscos"],
   },
   {
     id: "pure", cat: "guarniciones", rol: "guarnicion",
+    oculto: true,                       // En la hoja el precio está tachado. Quita esta línea y pon el precio nuevo.
     nombre: "Puré de papa con gravy",
     desc: "Cremoso, con gravy.",
     precio: 230, unidad: "kg",
@@ -138,7 +159,7 @@ const PLATILLOS = [
     id: "papa-gratin", cat: "guarniciones", rol: "guarnicion",
     nombre: "Papa gratin",
     desc: "Papa, jamón, queso y crema.",
-    precio: 270, unidad: "kg",
+    precio: 320, unidad: "kg",
     tags: ["queso", "elegante"], contiene: ["queso"], posibleContiene: ["cerdo"],
   },
 
@@ -147,21 +168,21 @@ const PLATILLOS = [
     id: "bavette", cat: "pastas", rol: "entrada",
     nombre: "Bavette con camarones",
     desc: "Bavette con camarones.",
-    precio: 320, unidad: "kg",
+    precio: 380, unidad: "kg",
     tags: ["italiano", "elegante"], contiene: ["mariscos"],
   },
   {
     id: "fusilli", cat: "pastas", rol: "entrada",
     nombre: "Fusilli Mediterráneo",
     desc: "Fusilli estilo mediterráneo.",
-    precio: 270, unidad: "kg",
+    precio: 320, unidad: "kg",
     tags: ["italiano", "compartir", "ligero"], contiene: [],
   },
   {
     id: "espagueti", cat: "pastas", rol: "entrada",
-    nombre: "Espagueti al burro",
-    desc: "Espagueti al burro.",
-    precio: 250, unidad: "kg",
+    nombre: "Espagueti provenzal",
+    desc: "Espagueti provenzal.",
+    precio: 300, unidad: "kg",
     tags: ["italiano", "compartir"], contiene: [],
   },
 
@@ -170,34 +191,34 @@ const PLATILLOS = [
     id: "ens-manzana", cat: "ensaladas", rol: "entrada",
     nombre: "Ensalada de manzana",
     desc: "Clásica ensalada de manzana navideña.",
-    precio: 350, unidad: "kg",
+    precio: 380, unidad: "kg",
     tags: ["tradicional", "ligero"], contiene: [],
   },
   {
-    id: "ens-omi", cat: "ensaladas", rol: "entrada",
-    nombre: "Ensalada OMI",
-    desc: "Espinaca, uvas, durazno y aderezo de miel mostaza.",
-    precio: 250, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
+    id: "ens-waldorf", cat: "ensaladas", rol: "entrada",     // reemplaza a la Ensalada OMI
+    nombre: "Ensalada Waldorf",
+    desc: "Ensalada Waldorf con queso cottage.",
+    precio: 380, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
     personas: 4,
-    precioEtiqueta: "$250 · 4 personas",
-    tags: ["ligero", "elegante"], contiene: [],
+    precioEtiqueta: "$380 · 4 personas",
+    tags: ["ligero", "queso", "elegante"], contiene: ["queso"], posibleContiene: ["frutos_secos"],
   },
   {
     id: "ens-fresosa", cat: "ensaladas", rol: "entrada",
     nombre: "Ensalada Fresosa",
     desc: "Lechuga, fresas, nueces, amaranto caramelizado y queso de cabra.",
-    precio: 330, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
+    precio: 380, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
     personas: 4,
-    precioEtiqueta: "$330 · 4 personas",
+    precioEtiqueta: "$380 · 4 personas",
     tags: ["ligero", "queso", "elegante"], contiene: ["frutos_secos", "queso"],
   },
   {
     id: "ens-manzana-verde", cat: "ensaladas", rol: "entrada",
     nombre: "Ensalada de manzana verde",
     desc: "Espinacas, manzana verde, nuez caramelizada y queso cottage.",
-    precio: 330, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
+    precio: 380, unidad: "pza", unidadSing: "ensalada (4 personas)", unidadPlur: "ensaladas (4 personas)",
     personas: 4,
-    precioEtiqueta: "$330 · 4 personas",
+    precioEtiqueta: "$380 · 4 personas",
     tags: ["ligero", "queso"], contiene: ["frutos_secos", "queso"],
   },
 
@@ -206,15 +227,88 @@ const PLATILLOS = [
     id: "crema-champi", cat: "cremas", rol: "entrada",
     nombre: "Crema de champiñones",
     desc: "Se vende por litro.",
-    precio: 230, unidad: "lt",
+    precio: 280, unidad: "lt",
     tags: ["tradicional", "elegante"], contiene: [],
   },
   {
     id: "crema-poblano", cat: "cremas", rol: "entrada",
     nombre: "Crema de poblano",
     desc: "Se vende por litro.",
-    precio: 230, unidad: "lt",
+    precio: 280, unidad: "lt",
     tags: ["mexicano", "tradicional"], contiene: [],
+  },
+  {
+    id: "crema-esparragos", cat: "cremas", rol: "entrada",
+    nombre: "Crema de espárragos",
+    desc: "Nueva. Se vende por litro.",
+    precio: 280, unidad: "lt",
+    tags: ["tradicional", "elegante", "ligero"], contiene: [],
+  },
+  {
+    id: "crema-brocoli-nuez", cat: "cremas", rol: "entrada",
+    nombre: "Crema de brócoli con nuez",
+    desc: "Se vende por litro.",
+    precio: 280, unidad: "lt",
+    tags: ["tradicional", "elegante"], contiene: ["frutos_secos"],
+  },
+
+  /* ---------------- POSTRES ---------------- */
+  // POR CONFIRMAR: en la hoja hay dos precios (300 y 450) junto a la lista; supuse flan 300 y cheesecake 450.
+  {
+    id: "flan", cat: "postres",
+    nombre: "Flan napolitano",
+    desc: "Flan napolitano.",
+    precio: 300, unidad: "pza", unidadSing: "flan", unidadPlur: "flanes",
+    precioEtiqueta: "$300 · por flan",
+    tags: ["tradicional"], contiene: [],
+  },
+  {
+    id: "cheesecake", cat: "postres",
+    nombre: "Cheesecake",
+    desc: "Cheesecake.",
+    precio: 450, unidad: "pza", unidadSing: "cheesecake", unidadPlur: "cheesecakes",
+    precioEtiqueta: "$450 · por cheesecake",
+    tags: ["queso"], contiene: ["queso"],
+  },
+  // Los panqués no tienen precio en la hoja: quedan ocultos. Escribe el precio y quita "oculto".
+  {
+    id: "panque-zanahoria", cat: "postres", oculto: true,
+    nombre: "Panqué de zanahoria",
+    desc: "Panqué de zanahoria.",
+    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    tags: ["tradicional"], contiene: [],
+  },
+  {
+    id: "panque-naranja", cat: "postres", oculto: true,
+    nombre: "Panqué de naranja",
+    desc: "Panqué de naranja.",
+    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    tags: ["tradicional"], contiene: [],
+  },
+  {
+    id: "panque-frutos-secos", cat: "postres", oculto: true,
+    nombre: "Panqué de frutos secos",
+    desc: "Nuevo.",
+    precio: 0, unidad: "pza", unidadSing: "panqué", unidadPlur: "panqués",
+    tags: ["tradicional"], contiene: ["frutos_secos"],
+  },
+
+  /* ---------------- SERVICIO DE HORNEADO ---------------- */
+  // Se cobra por pieza. Oculto hasta definir el precio: pon el precio en "precio" y,
+  // si cuesta distinto según la pieza, un "extra" en cada elección. Luego quita "oculto".
+  {
+    id: "horneado", cat: "horneado", oculto: true,
+    nombre: "Horneado de tu pieza",
+    desc: "Horneamos tu pavo, pierna, lomo u otra pieza. Se cobra por pieza; indica en la nota el peso y la hora en que la necesitas.",
+    precio: 0, unidad: "pza", unidadSing: "pieza", unidadPlur: "piezas",
+    precioEtiqueta: "Por pieza",
+    tags: [], contiene: [],
+    opciones: [
+      { id: "pieza", titulo: "Pieza a hornear", requerida: true, multiple: false,
+        elecciones: [{ nombre: "Pavo", extra: 0 }, { nombre: "Pierna de cerdo", extra: 0 },
+                     { nombre: "Lomo de cerdo", extra: 0 }, { nombre: "Pollo", extra: 0 },
+                     { nombre: "Otra pieza", extra: 0 }] },
+    ],
   },
 ];
 
